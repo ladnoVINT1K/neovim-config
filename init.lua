@@ -8,12 +8,13 @@ require('core.plugins')
 require('core.options')
 require('core.keymaps')
 
--- Инициализация плагинов
-require('plugins.lsp')
-require('plugins.cmp')
-require('plugins.ai')
-require('plugins.ui')
-require('plugins.dap')
+require("lazy").setup({
+  require("plugins.lsp"),
+  require("plugins.cmp"),
+  require("plugins.ai"),
+  require("plugins.ui"),
+  require("plugins.dap"),
+})
 
 -- Устанавливаем прозрачность фона окна Neovim
 vim.api.nvim_command("autocmd VimEnter * hi Normal guibg=NONE ctermbg=NONE") -- Оставляет фон прозрачным

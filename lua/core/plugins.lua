@@ -74,6 +74,7 @@ lazy.setup({
     end
   },
 
+
   "nvim-telescope/telescope.nvim",
   "folke/which-key.nvim",
   "rcarriga/nvim-notify",
