@@ -18,3 +18,4 @@ require('plugins.dap')
 -- Устанавливаем прозрачность фона окна Neovim
 vim.api.nvim_command("autocmd VimEnter * hi Normal guibg=NONE ctermbg=NONE") -- Оставляет фон прозрачным
 
+-- vim.cmd.colorscheme "catppuccin"

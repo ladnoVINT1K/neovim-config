@@ -45,6 +45,35 @@ lazy.setup({
       }
     end
   },
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    dependencies = "nvim-tree/nvim-web-devicons",
+    config = function()
+    vim.opt.termguicolors = true
+
+      require("bufferline").setup{
+        highlights = require("catppuccin.groups.integrations.bufferline").get(),
+        options = {
+          mode = "buffers", -- или "tabs", если хочешь по табам
+          offsets = {
+          {
+            filetype = "NvimTree",
+            text = "File Explorer",
+            highlight = "Directory",
+            text_align = "center",
+          }
+        },
+          diagnostics = "nvim_lsp",
+          separator_style = "thin", -- или "thick", "thin", "padded_slant"
+          show_buffer_close_icons = false,
+          show_close_icon = false,
+          always_show_bufferline = true,
+        }
+      }
+    end
+  },
+
   "nvim-telescope/telescope.nvim",
   "folke/which-key.nvim",
   "rcarriga/nvim-notify",
@@ -63,7 +92,7 @@ lazy.setup({
   "hrsh7th/cmp-cmdline",
   "L3MON4D3/LuaSnip",
   "saadparwaiz1/cmp_luasnip",
-
+  { 'jiangmiao/auto-pairs' },
   -- AI
   --  "github/copilot.vim", -- самый простой способ
   --  { "Exafunction/codeium.nvim", config = true },
@@ -75,6 +104,37 @@ lazy.setup({
 
   -- Treesitter
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  
+  -- restore 
+  {
+  "stevearc/resession.nvim",
+  config = function()
+    require("resession").setup {
+      autosave = {
+        enabled = true,
+        interval = 60, -- автосейв каждые 60 секунд
+        notify = false,
+      },
+    }
+
+    -- Автовосстановление последней сессии при старте
+    -- Автозагрузка последней сессии без запроса
+    vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
+        if vim.fn.argc(-1) == 0 then
+            local success, _ = pcall(function()
+              require("resession").load("last-session")
+            end)
+        if not success then
+          print("No session found, starting fresh!")
+        end
+      end
+    end
+  })
+  
+  end
+  }
+
 })
 
 local lualine = require('lualine')
