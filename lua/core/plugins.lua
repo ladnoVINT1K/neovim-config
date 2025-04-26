@@ -94,6 +94,14 @@ lazy.setup({
   "L3MON4D3/LuaSnip",
   "saadparwaiz1/cmp_luasnip",
   { 'jiangmiao/auto-pairs' },
+  {
+        'neoclide/coc.nvim',
+        branch = 'release',
+        config = function()
+            -- Конфигурация coc.nvim, например, настройки для CMake
+            vim.cmd('au BufEnter * setlocal formatoptions-=cro')
+        end
+  },
   -- AI
   --  "github/copilot.vim", -- самый простой способ
   --  { "Exafunction/codeium.nvim", config = true },
@@ -155,5 +163,21 @@ lualine.setup({
     lualine_y = { 'progress' },
     lualine_z = { 'location' },
   },
+})
+
+
+local lspconfig = require('lspconfig')
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+lspconfig.clangd.setup({
+  capabilities = capabilities,
+  cmd = { "clangd", "--background-index", "--log=verbose" },
+  on_attach = function(client, bufnr)
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+  end,
 })
 
